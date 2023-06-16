@@ -7,12 +7,16 @@ from googleapiclient.discovery import build
 
 
 def printj(dict_to_print: dict) -> None:
-    """Выводит словарь в json - подобном удобном формате с отступами"""
+    """
+    Выводит словарь в json - подобном удобном формате с отступами
+    """
     print(json.dumps(dict_to_print, indent=2, ensure_ascii=False))
 
 
 class Channel:
-    """Класс для ютуб - канала"""
+    """
+    Класс для ютуб - канала
+    """
     # YT_API_KEY скопирован из гугла и вставлен в переменные окружения
     api_key: str = os.getenv('YT_API_KEY')
 
@@ -20,8 +24,10 @@ class Channel:
     youtube = build('youtube', 'v3', developerKey=api_key)
 
     def __init__(self, channel_id: str) -> None:
-        """Экземпляр инициализируется id канала.
-Дальше все данные будут подтягиваться по API."""
+        """
+        Экземпляр инициализируется id канала.
+Дальше все данные будут подтягиваться по API
+"""
         self.__channel_id = channel_id
         self.channel = self.youtube.channels().list(id=self.channel_id, part='snippet, statistics').execute()
         self.title = self.channel['items'][0]['snippet']['title']
@@ -33,10 +39,15 @@ class Channel:
 
     @classmethod
     def get_service(cls):
+        """
+        Метод, возвращающий объект для работы с YouTube API
+        """
         return build('youtube', 'v3', developerKey=cls.api_key)
 
     def print_info(self) -> None:
-        """Выводит в консоль информацию о канале."""
+        """
+        Выводит в консоль информацию о канале
+        """
         printj(self.channel)
 
     @property
@@ -44,8 +55,11 @@ class Channel:
         return self.__channel_id
 
     def to_json(self):
-        d = {}
-        d['Channel'] = []
+        """
+        Метод, сохраняющий в файл значения атрибутов экземпляра `Channel`
+        """
+        d = {'Channel': []}
+
         d['Channel'].append({
             'channel_id': self.__channel_id,
             'title': self.title,
@@ -59,8 +73,5 @@ class Channel:
         with open('moscowpython.json', 'w', encoding='utf-8') as file:
             json.dump(d, file, sort_keys=False, indent=4, separators=(',', ': '), ensure_ascii=False)
 
-        with open('moscowpython.json',  encoding='utf-8') as f:
+        with open('moscowpython.json', encoding='utf-8') as f:
             print(json.load(f))
-
-
-
