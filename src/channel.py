@@ -87,12 +87,26 @@ view_count - общее количество просмотров
         return f'{self.title} ({self.url})'
 
     def __add__(self, other):
-        sum = int(self.subscriber_count) + int(other.subscriber_count)
-        difference = int(self.subscriber_count) - int(other.subscriber_count)
-        difference_inverse = int(other.subscriber_count) - int(self.subscriber_count)
-        more = int(self.subscriber_count) > int(other.subscriber_count)
-        more_equal = int(self.subscriber_count) >= int(other.subscriber_count)
-        less = int(self.subscriber_count) < int(other.subscriber_count)
-        less_equals = int(self.subscriber_count) <= int(other.subscriber_count)
-        equal = int(self.subscriber_count) == int(other.subscriber_count)
-        return f'{sum}\n{difference}\n{difference_inverse}\n{more}\n{more_equal}\n{less}\n{less_equals}\n{equal}'
+        return int(self.subscriber_count) + int(other.subscriber_count)
+
+    def __sub__(self, other):
+        return int(self.subscriber_count) - int(other.subscriber_count)
+
+    def __isub__(self, other):
+        return int(other.subscriber_count) - int(self.subscriber_count)
+
+    def __gt__(self, other):
+        return int(self.subscriber_count) > int(other.subscriber_count)
+
+    def __ge__(self, other):
+        return int(self.subscriber_count) >= int(other.subscriber_count)
+
+    def __lt__(self, other):
+        return int(self.subscriber_count) < int(other.subscriber_count)
+
+    def __le__(self, other):
+        return int(self.subscriber_count) <= int(other.subscriber_count)
+
+    def __eq__(self, other):
+        return int(self.subscriber_count) == int(other.subscriber_count)
+
