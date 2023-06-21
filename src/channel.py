@@ -27,6 +27,13 @@ class Channel:
         """
         Экземпляр инициализируется id канала.
 Дальше все данные будут подтягиваться по API
+param: channel_id - id
+title - название канала
+description_title - описание канала
+url - ссылка на канал
+subscriber_count - количество подписчиков
+video_count - количество видео
+view_count - общее количество просмотров
 """
         self.__channel_id = channel_id
         self.channel = self.youtube.channels().list(id=self.channel_id, part='snippet, statistics').execute()
@@ -75,3 +82,17 @@ class Channel:
 
         with open('moscowpython.json', encoding='utf-8') as f:
             print(json.load(f))
+
+    def __str__(self):
+        return f'{self.title} ({self.url})'
+
+    def __add__(self, other):
+        sum = int(self.subscriber_count) + int(other.subscriber_count)
+        difference = int(self.subscriber_count) - int(other.subscriber_count)
+        difference_inverse = int(other.subscriber_count) - int(self.subscriber_count)
+        more = int(self.subscriber_count) > int(other.subscriber_count)
+        more_equal = int(self.subscriber_count) >= int(other.subscriber_count)
+        less = int(self.subscriber_count) < int(other.subscriber_count)
+        less_equals = int(self.subscriber_count) <= int(other.subscriber_count)
+        equal = int(self.subscriber_count) == int(other.subscriber_count)
+        return f'{sum}\n{difference}\n{difference_inverse}\n{more}\n{more_equal}\n{less}\n{less_equals}\n{equal}'
